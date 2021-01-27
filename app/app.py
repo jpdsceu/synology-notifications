@@ -23,6 +23,7 @@ def send(data):
         "embeds": [{
             "title": f"Synology Alarm - {timenow()}",
             "description": data,
+            "fields": []
         }]
     }
 
