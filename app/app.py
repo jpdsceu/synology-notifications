@@ -5,15 +5,24 @@ import requests
 import sys
 import traceback
 
+from datetime import datetime
 from flask import Flask, request
 from gevent.pywsgi import WSGIServer
 
 app = Flask(__name__)
 
+def timenow():
+    now = datetime.now(timezone('Asia/Seoul'))
+    fmt = "%Y-%m-%d %H:%M:%S"
+    return now.strftime(fmt)
+
 def send(data):
     payload = {
-        "content": data,
-        "username": username
+        "content": f"<@&{role}>",
+        "embeds": [{
+            "title": f"Synology Alarm - {timenow()}",
+            "description": data,
+        }]
     }
 
     print(payload)
@@ -51,6 +60,11 @@ if __name__ == '__main__':
     url = os.getenv('WEBHOOK_URL', None)
     if not url:
         print('No WEBHOOK_URL env var set!')
+        sys.exit(1)
+
+    role = os.getenv('DISCORD_ROLE', None)
+    if not url:
+        print('DISCORD_ROLE env var set!')
         sys.exit(1)
 
     username = os.getenv('USERNAME', 'synology')
