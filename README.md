@@ -11,7 +11,7 @@ Supports:
 1. Add a `WEBHOOK_URL` environment variable and set it to your service's url.
     1. For discord, you can find this in `Edit channel->Integrations->Webhooks->WebhookName->Copy webhook URL`
 1. Add a `DISCORD_ROLE` environment variable and set it to your discord server role ID.
-    1. For discord, typing '\@ROLENAME' on your desired discord server and you can find a number between '<@&' and '>'
+    1. For discord, typing `'\@ROLENAME'` on your desired discord server and you can find a number between `<@&` and `>`
 
 ## Setup for Synology
 1. Add a new SMS provider in `Control Panel`
