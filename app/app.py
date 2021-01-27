@@ -26,10 +26,10 @@ def send(data):
             "fields": []
         }]
     }
-
+    headers = {'Content-Type': 'Application/json; charset=utf-8'}
     print(payload)
 
-    response = requests.post(url, data=payload)
+    response = requests.post(url, data=json.dumps(payload), headers=headers)
 
     print(f'response {response.reason}, {response.status_code}')
 
