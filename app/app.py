@@ -13,19 +13,24 @@ from gevent.pywsgi import WSGIServer
 app = Flask(__name__)
 
 def timenow():
-    now = datetime.now(timezone('Asia/Seoul'))
-    fmt = "%Y-%m-%d %H:%M:%S"
+    now = datetime.now(timezone('Europe/Amsterdam'))
+    fmt = "%m/%d/%Y, %H:%M:%S"
     return now.strftime(fmt)
 
 def send(data):
     payload = {
-        "content": f"<@&{role}>",
-        "embeds": [{
-            "title": f"Synology Alarm - {timenow()}",
+        "embeds": [
+          {
+            "title": f"DSM notification",
             "description": data,
-            "fields": []
-        }]
-    }
+            "color": 36863,
+            "footer": {
+              "text": f"{timenow()}",
+              "icon_url": "https://images.emojiterra.com/google/android-11/128px/1f4a0.png"            
+            }
+        }
+    ]
+}
     headers = {'Content-Type': 'Application/json; charset=utf-8'}
     print(payload)
 
@@ -64,12 +69,10 @@ if __name__ == '__main__':
         print('No WEBHOOK_URL env var set!')
         sys.exit(1)
 
-    role = os.getenv('DISCORD_ROLE', None)
-    if not url:
-        print('DISCORD_ROLE env var set!')
-        sys.exit(1)
-
-    username = os.getenv('USERNAME', 'synology')
+    # role = os.getenv('DISCORD_ROLE', None)
+    # if not url:
+        # print('DISCORD_ROLE env var set!')
+        # sys.exit(1)
 
     # Debug/Development
     app.run(debug=True, host="0.0.0.0", port="8686")
