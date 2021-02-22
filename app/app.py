@@ -26,7 +26,7 @@ def send(data):
             "color": 36863,
             "footer": {
               "text": f"{timenow()}",
-              "icon_url": "https://images.emojiterra.com/google/android-11/128px/1f4a0.png"            
+              "icon_url": "https://i.imgur.com/EO6Xw2A.jpg"            
             }
         }
     ]
