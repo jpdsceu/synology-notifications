@@ -1,36 +1,37 @@
 import json
-import logging
 import os
 import requests
 import sys
-import traceback
 
 from datetime import datetime
 from pytz import timezone
 from flask import Flask, request
-from gevent.pywsgi import WSGIServer
+
+# from gevent.pywsgi import WSGIServer
 
 app = Flask(__name__)
+
 
 def timenow():
     now = datetime.now(timezone('Europe/Amsterdam'))
     fmt = "%m/%d/%Y, %H:%M:%S"
     return now.strftime(fmt)
 
+
 def send(data):
     payload = {
         "embeds": [
-          {
-            "title": f"DSM notification",
-            "description": data,
-            "color": 36863,
-            "footer": {
-              "text": f"{timenow()}",
-              "icon_url": "https://i.imgur.com/EO6Xw2A.jpg"            
+            {
+                "title": f"DSM notification",
+                "description": data,
+                "color": 36863,
+                "footer": {
+                    "text": f"{timenow()}",
+                    "icon_url": "https://i.imgur.com/EO6Xw2A.jpg"
+                }
             }
-        }
-    ]
-}
+        ]
+    }
     headers = {'Content-Type': 'Application/json; charset=utf-8'}
     print(payload)
 
@@ -40,14 +41,16 @@ def send(data):
 
     return response.reason, response.status_code
 
-@app.route('/', methods = ['GET'])
+
+@app.route('/', methods=['GET'])
 def home_get():
     body = request.args.get('text')
     print(f'text {body}')
 
     return send(body)
 
-@app.route('/', methods = ['POST'])
+
+@app.route('/', methods=['POST'])
 def home_post():
     body = request.data
     if not body:
@@ -63,16 +66,12 @@ def home_post():
 
     return send(synology_message)
 
+
 if __name__ == '__main__':
     url = os.getenv('WEBHOOK_URL', None)
     if not url:
         print('No WEBHOOK_URL env var set!')
         sys.exit(1)
-
-    # role = os.getenv('DISCORD_ROLE', None)
-    # if not url:
-        # print('DISCORD_ROLE env var set!')
-        # sys.exit(1)
 
     # Debug/Development
     app.run(debug=True, host="0.0.0.0", port="8686")
