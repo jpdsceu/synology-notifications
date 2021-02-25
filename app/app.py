@@ -22,7 +22,7 @@ def send(data):
     payload = {
         "embeds": [
             {
-                "title": f"DSM notification",
+                "title": "DSM notification",
                 "description": data,
                 "color": 36863,
                 "footer": {
